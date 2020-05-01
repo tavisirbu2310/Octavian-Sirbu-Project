@@ -1,6 +1,6 @@
 # myProject
 
-1.Clone
+1. Clone
 
 2. use: npm run start [for dev-server]
 
