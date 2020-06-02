@@ -4,6 +4,4 @@
 
 2.Run npm install
 
-3.1 use: npm run start [for dev-server]
-
-3.2 use: npm run build [for build]
+3.Run npm start
