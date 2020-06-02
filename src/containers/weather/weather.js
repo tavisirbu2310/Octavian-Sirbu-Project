@@ -1,10 +1,8 @@
 import React,{Component} from 'react';
-import checkWeather from "./checkWeather";
+import checkWeather from "./checkWeatherFunction/checkWeather";
 import moment from "moment";
-import {Link, NavLink, Route} from "react-router-dom";
-import AboutMe from "./aboutme";
-import {Redirect} from "react-router";
-import Home from "./home";
+import WeatherForm from "./weatherForm/weatherForm";
+import WeatherInfo from "./weatherInfo/weatherInfo";
 
 function KelvintoC(kelvin){
     return Math.round(kelvin-273.15);
@@ -36,7 +34,6 @@ export default class Weather extends Component{
             sun3:'',
             sun4:'',
             sun5:'',
-
             cityInput:'',
 
         }
@@ -45,14 +42,12 @@ export default class Weather extends Component{
         fetch(`http://ip-api.com/json/`)
             .then(response => response.json())
             .then(data=>{
-                console.log(data)
                 this.setState({
                     cityName:data.city
                 })
                 fetch(`http://api.openweathermap.org/data/2.5/weather?q=${data.city}&appid=9d99931860d7187e8cbc7d8131bf2f03`)
                     .then(response => response.json())
                     .then(data=>{
-                        console.log(data)
                         this.setState({
                             mainTemp:KelvintoC(data.main.temp),
                             mainPress:data.main.pressure,
@@ -122,9 +117,7 @@ export default class Weather extends Component{
                                     sun3:sunlist[2],
                                     sun4:sunlist[3],
                                 })
-
-                                console.log(templist);
-                                console.log(forecastData)})
+                            })
                             .catch(err => {
                                 console.log(err);
                             });
@@ -140,7 +133,7 @@ export default class Weather extends Component{
             });
     }
 
-    submit(e){
+    submit=e=>{
         e.preventDefault();
         this.setState({
             cityWeather:true
@@ -148,7 +141,6 @@ export default class Weather extends Component{
         fetch(`http://api.openweathermap.org/data/2.5/weather?q=${this.state.cityInput}&appid=9d99931860d7187e8cbc7d8131bf2f03`)
             .then(response => response.json())
             .then(data=>{
-                console.log(data);
                 this.setState({
                     cityName:data.name,
                     mainTemp:KelvintoC(data.main.temp),
@@ -253,8 +245,7 @@ export default class Weather extends Component{
                             sun3:sunlist[2],
                             sun4:sunlist[3]
                         })
-
-                        console.log(forecastData);})
+                    })
                     .catch(err => {
                         console.log(err);
                     });
@@ -266,7 +257,7 @@ export default class Weather extends Component{
             });
 
     }
-    handleChange(e){
+    handleChange=e=>{
         this.setState({
             cityInput: e.target.value
         })
@@ -276,63 +267,26 @@ export default class Weather extends Component{
                 return (
                     <>
                         <section id="app-weather" className="container">
-                            <div className="module module__form">
-                                <button className="btnW btnW--icon btnW--close"><i className="material-icons"><NavLink className={'navlink'} to={'/'}>close</NavLink></i></button>
-                                <h2>Find city</h2>
-
-                                <form onSubmit={this.submit.bind(this)} noValidate autoComplete="off" className="find-city">
-                                    <input type="text" onChange={this.handleChange.bind(this)} name="search" id="search" placeholder="eg. New York"/>
-                                    <button type="submit"><i className="material-icons">search</i></button>
-                                </form>
-                                <div className="search-error"> </div>
-                            </div>
-                            <div className="module module__weather">
-
-                                <div className="weather">
-                                    <div className={'weather'}>
-                                    <div className="weather__icon"><img className="clouds" src={this.state.path} alt={'img'}/></div>
-
-                                    <div className="weather__info">
-                                        <div className="city">
-                                            <span className="city__name">{this.state.cityName}</span>
-                                        </div>
-                                        <div className="temperature"><span className="temperature__value">{this.state.mainTemp}</span>&deg;C
-                                        </div>
-                                    </div>
-
-                                    <ul className="weather__details">
-                                        <li><img src="./../../assets/images/weather/pressure.svg" alt={'img'}/> <span
-                                            className="pressure__value">{this.state.mainPress} hPa</span></li>
-                                        <li><img src="./../../assets/images/weather/humidity.svg" alt={'img'}/> <span className="humidity__value">{this.state.mainHum}%</span>
-                                        </li>
-                                        <li><img src="./../../assets/images/weather/wind-speed.svg" alt={'img'}/> <span
-                                            className="wind-speed__value">{this.state.mainWind} m/s</span></li>
-                                    </ul>
-                                    </div>
-                                    <ul className="weather__forecast">
-                                        <li>
-                                            <span className="day">{this.state.day_1}</span> <img className="clouds" src={this.state.sun1} alt={'img'}/>
-                                            <span className="temperature"><span className="temperature__value">{this.state.temp1}</span>&deg;C</span>
-                                        </li>
-
-                                        <li>
-                                            <span className="day">{this.state.day_2}</span> <img className="clouds" src={this.state.sun2} alt={'img'}/>
-                                            <span className="temperature"><span className="temperature__value">{this.state.temp2}</span>&deg;C</span>
-                                        </li>
-
-                                        <li>
-                                            <span className="day">{this.state.day_3}</span> <img className="clouds" src={this.state.sun3} alt={'img'}/>
-                                            <span className="temperature"><span className="temperature__value">{this.state.temp3}</span>&deg;C</span>
-                                        </li>
-
-                                        <li>
-                                            <span className="day">{this.state.day_4}</span> <img className="clouds" src={this.state.sun4} alt={'img'}/>
-                                            <span className="temperature"><span className="temperature__value">{this.state.temp4}</span>&deg;C</span>
-                                        </li>
-
-                                    </ul>
-                                </div>
-                            </div>
+                            <WeatherForm submit={this.submit} handleChange={this.handleChange}/>
+                            <WeatherInfo
+                                path={this.state.path}
+                                cityName={this.state.cityName}
+                                mainTemp={this.state.mainTemp}
+                                mainPress={this.state.mainPress}
+                                mainHum={this.state.mainHum}
+                                mainWind={this.state.mainWind}
+                                day_1={this.state.day_1}
+                                sun1={this.state.sun1}
+                                temp1={this.state.temp1}
+                                day_2={this.state.day_2}
+                                sun2={this.state.sun2}
+                                temp2={this.state.temp2}
+                                day_3={this.state.day_3}
+                                sun3={this.state.sun3}
+                                temp3={this.state.temp3}
+                                day_4={this.state.day_4}
+                                sun4={this.state.sun4}
+                                temp4={this.state.temp4}/>
                             <div className="loading">
                                 <div className="dual-ring"> </div>
                             </div>

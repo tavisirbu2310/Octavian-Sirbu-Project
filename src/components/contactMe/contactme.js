@@ -1,12 +1,9 @@
-import React,{Component} from 'react';
-import ReactDOM from 'react-dom';
-import {HashRouter, NavLink, Route, Switch} from "react-router-dom";
+import React from 'react';
+import {NavLink} from "react-router-dom";
 
-export default class ContactMe extends Component{
-    render() {
-        return(
+const ContactMe = props => {
+    return (
         <>
-
             <div className={'formDiv'}>
 
                 <h2>Contact me</h2>
@@ -23,7 +20,7 @@ export default class ContactMe extends Component{
                 <button><NavLink className={'navlink'} to={'/'}>Home</NavLink></button>
             </div>
         </>
+    )
+};
 
-        )
-    }
-}
+export default ContactMe;

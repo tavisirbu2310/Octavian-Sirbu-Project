@@ -1,4 +1,4 @@
-export default function checkWeather(param,sunrise,sunset,currTime) {
+const checkWeather=(param,sunrise,sunset,currTime)=> {
     let x='';
     switch (param) {
         case 'light rain':
@@ -39,4 +39,6 @@ export default function checkWeather(param,sunrise,sunset,currTime) {
             return x;
 
     }
-}
+};
+
+export default checkWeather;

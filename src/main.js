@@ -1,11 +1,12 @@
 import React,{Component} from 'react';
 import ReactDOM from 'react-dom';
 import {HashRouter,Route,Switch} from "react-router-dom";
-import Home from "./home";
-import AboutMe from "./aboutme";
-import Weather from "./weather";
-import Calculator from "./calculator";
-import ContactMe from "./contactme";
+import {Home} from "./components/homePage/home";
+import {AboutMe} from "./components/aboutMe/aboutme";
+import Weather from "./containers/weather/weather";
+import Calculator from "./containers/calculator/calculator";
+import ContactMe from "./components/contactMe/contactme";
+import MemeGenerator from "./containers/memeGenerator/memegenerator";
 
 document.addEventListener("DOMContentLoaded",function () {
 
@@ -21,6 +22,7 @@ document.addEventListener("DOMContentLoaded",function () {
                     <Route exact path={'/weather'} component={Weather}/>
                     <Route exact path={'/calculator'} component={Calculator}/>
                     <Route exact path={'/contactme'} component={ContactMe}/>
+                    <Route exac path={'/memegen'} component={MemeGenerator}/>
                     </Switch>
                     </>
             </HashRouter>

@@ -6,8 +6,8 @@ const scssFile = "main.scss";
 module.exports = {
     devtool: 'source-map',
     entry: [
-        `${entryPath}src/js/${entryFile}`,
-        `${entryPath}src/scss/${scssFile}`
+        `${entryPath}src/${entryFile}`,
+        `${entryPath}src/${scssFile}`
     ],
     output: {
         filename: "js/out.js",
